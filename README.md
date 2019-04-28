@@ -1,2 +1,5 @@
-# analyze-and-cloud
-Analyze the text on a webpage (or website) and turn it into a word cloud (work in progress)
+# Website Wordcloud (Work in Progress)
+Crawl a website and create a word cloud from all of its text content
+
+### Bugs
+Crawler finishes early without crawling everything in the pages_to_crawl list. Need to investigate that issue.
