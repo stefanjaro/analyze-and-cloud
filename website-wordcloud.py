@@ -138,11 +138,13 @@ def crawler(start_url, page_limit=None, file_store="website_text.txt"):
     # variable to store crawl status of pages
     page_crawl_status = []
 
-    for url in pages_to_crawl:
+    while True:
+        # get url to crawl
+        url = pages_to_crawl[0]
 
         # crawl url and store in list of crawled pages
         soup = make_request_and_parse(url)
-        crawled_pages.append(url)
+        crawled_pages.append(pages_to_crawl.pop(0))
 
         # if invalid type or crawl failed was returned as the above continue to next link
         if soup == "Invalid Type" or soup == "Request Failed":
@@ -171,8 +173,8 @@ def crawler(start_url, page_limit=None, file_store="website_text.txt"):
             "Crawl Status": "Crawled"
         })
 
-        # if we've reached our limit break the loop
-        if crawl_counter == page_limit:
+        # if we've reached our limit or there are no more pages break the loop
+        if crawl_counter == page_limit or len(pages_to_crawl) == 0:
             break
 
         # print progress update
@@ -184,7 +186,7 @@ def crawler(start_url, page_limit=None, file_store="website_text.txt"):
         time.sleep(2)
 
     # returning primarily for debugging
-    return page_crawl_status, pages_to_crawl
+    return page_crawl_status
 
 def create_wordcloud(file_store):
     """
@@ -213,15 +215,14 @@ def create_wordcloud(file_store):
 
 if __name__ == "__main__":
     # specify start url and file path to store extracted text
-    start_url = "https://www.linuxjournal.com/"
-    file_store="lj.txt"
+    start_url = "http://www.stax.com/"
+    file_store="stax.txt"
 
     # run crawler
-    page_crawl_status, pages_to_crawl = crawler(start_url=start_url, page_limit=25, file_store=file_store)
+    page_crawl_status = crawler(start_url=start_url, page_limit=50, file_store=file_store)
 
     # export crawl log and pages to crawl log
     pd.DataFrame(page_crawl_status).to_csv("crawl_log.csv", index=False, encoding="utf-8")
-    pd.DataFrame(pages_to_crawl).to_csv("pages_to_crawl_log.csv", index=False, encoding="utf-8")
 
     # create wordcloud
     create_wordcloud(file_store)
