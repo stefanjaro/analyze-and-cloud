@@ -10,15 +10,17 @@ from wordcloud import WordCloud
 from urllib.parse import urlparse, urljoin
 from bs4 import BeautifulSoup, Comment
 
-def get_links_from_page(soup):
+def get_links_from_page(home_url, soup):
     """
     Get all the links from a page
     """
     # debug statement
     print("Extracting Links")
 
-    # extract all links
+    # extract all links and handle for relative links
     links = [x.get('href') for x in soup.find_all("a")]
+    links = [urljoin(home_url, x) for x in links]
+
     return links
 
 def get_content_from_page(soup, file_store):
@@ -29,8 +31,10 @@ def get_content_from_page(soup, file_store):
     # debug statement
     print("Extracting Text")
 
-    # extract only the body code
-    body = soup.body
+    ### DEPRECATING SINCE SOME WEBSITES DON'T HAVE A BODY
+    # # extract only the body code
+    # body = soup.body
+    body = soup
 
     # remove elements we don't want to consider
     forbidden_tags = [
@@ -157,7 +161,7 @@ def crawler(start_url, page_limit=None, file_store="website_text.txt"):
             continue
 
         # get links, verify and store in pages to crawl and remove duplicates
-        links_on_page = get_links_from_page(soup)
+        links_on_page = get_links_from_page(url, soup)
         pages_to_crawl.extend(verify_links(start_url, crawled_pages, links_on_page))
         pages_to_crawl = list(set(pages_to_crawl))
 
@@ -211,12 +215,12 @@ def create_wordcloud(file_store):
 
     # generate and save wordcloud
     wc.generate_from_text(wc_text)
-    wc.to_file("website_wordcloud.png")
+    wc.to_file("website_wordcloud_staxasia.png")
 
 if __name__ == "__main__":
     # specify start url and file path to store extracted text
-    start_url = "http://www.stax.com/"
-    file_store="stax.txt"
+    start_url = "http://staxasia.com/"
+    file_store = "staxasia.txt"
 
     # run crawler
     page_crawl_status = crawler(start_url=start_url, page_limit=50, file_store=file_store)
