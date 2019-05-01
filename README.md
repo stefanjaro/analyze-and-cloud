@@ -5,3 +5,4 @@ Crawl a website and create a word cloud from all of its text content
 * Test on more websites
 * Can it run on websites with pagination?
 * Turn it into a library with classes and objects
+* Remove the text common to every page

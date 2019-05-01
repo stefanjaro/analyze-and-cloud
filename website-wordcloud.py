@@ -9,6 +9,7 @@ import pandas as pd
 from wordcloud import WordCloud
 from urllib.parse import urlparse, urljoin
 from bs4 import BeautifulSoup, Comment
+import uuid
 
 def get_links_from_page(home_url, soup):
     """
@@ -192,7 +193,7 @@ def crawler(start_url, page_limit=None, file_store="website_text.txt"):
     # returning primarily for debugging
     return page_crawl_status
 
-def create_wordcloud(file_store):
+def create_wordcloud(file_store, random_string):
     """
     Turns the extracted text from a website into a wordcloud
     """
@@ -215,12 +216,13 @@ def create_wordcloud(file_store):
 
     # generate and save wordcloud
     wc.generate_from_text(wc_text)
-    wc.to_file("website_wordcloud_staxasia.png")
+    wc.to_file(f"{random_string}.png")
 
 if __name__ == "__main__":
     # specify start url and file path to store extracted text
-    start_url = "http://staxasia.com/"
-    file_store = "staxasia.txt"
+    start_url = "https://www.bcg.com/"
+    random_string = str(uuid.uuid4().hex)
+    file_store = f"{random_string}.txt"
 
     # run crawler
     page_crawl_status = crawler(start_url=start_url, page_limit=50, file_store=file_store)
@@ -229,7 +231,7 @@ if __name__ == "__main__":
     pd.DataFrame(page_crawl_status).to_csv("crawl_log.csv", index=False, encoding="utf-8")
 
     # create wordcloud
-    create_wordcloud(file_store)
+    create_wordcloud(file_store, random_string)
 
     # print completion message
     print(f"Your word cloud has been created for {start_url}")
