@@ -201,6 +201,9 @@ def create_wordcloud(file_store, random_string):
     with open(file_store, "r") as file:
         wc_text = file.read()
 
+    # define path to wordcloud file
+    wc_file_path = f"./static/wordclouds/{random_string}.png"
+
     # configure wordcloud object
     wc = WordCloud(
         width=1200,
@@ -216,22 +219,25 @@ def create_wordcloud(file_store, random_string):
 
     # generate and save wordcloud
     wc.generate_from_text(wc_text)
-    wc.to_file(f"{random_string}.png")
+    wc.to_file(wc_file_path)
 
-if __name__ == "__main__":
-    # specify start url and file path to store extracted text
-    start_url = "https://www.bcg.com/"
-    random_string = str(uuid.uuid4().hex)
-    file_store = f"{random_string}.txt"
+    return wc_file_path
 
-    # run crawler
-    page_crawl_status = crawler(start_url=start_url, page_limit=50, file_store=file_store)
+# # FOR DEBUGGING
+# if __name__ == "__main__":
+#     # specify start url and file path to store extracted text
+#     start_url = "https://bankhilleducare.com/"
+#     random_string = str(uuid.uuid4().hex)
+#     file_store = f"{random_string}.txt"
 
-    # export crawl log and pages to crawl log
-    pd.DataFrame(page_crawl_status).to_csv("crawl_log.csv", index=False, encoding="utf-8")
+#     # run crawler
+#     page_crawl_status = crawler(start_url=start_url, page_limit=50, file_store=file_store)
 
-    # create wordcloud
-    create_wordcloud(file_store, random_string)
+#     # export crawl log and pages to crawl log
+#     pd.DataFrame(page_crawl_status).to_csv("crawl_log.csv", index=False, encoding="utf-8")
 
-    # print completion message
-    print(f"Your word cloud has been created for {start_url}")
+#     # create wordcloud
+#     create_wordcloud(file_store, random_string)
+
+#     # print completion message
+#     print(f"Your word cloud has been created for {start_url}")

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+
+    <!-- Boostrap files and additional CSS file from Bootstrap examples-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+</head>
+
+<body class="text-center">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <nav class="nav nav-masthead justify-content-center">
+                    <a class="nav-link active" href="{{ url_for('index') }}">Home</a>
+                    <a class="nav-link" href="#">Leave Feedback</a>
+                </nav>
+            </div>
+        </header>
+
+        {% block body %}{% endblock %}
+
+        <footer class="mastfoot mt-auto">
+            <div class="inner">
+                <p>An <a href="https://github.com/stefanjaro/website-wordcloud">Open Source Project</a> by <a href="https://www.linkedin.com/in/stefanjaro/">Stefan Jaro</a></p>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

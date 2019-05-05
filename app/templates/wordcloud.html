@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<main role="main" class="inner cover">
+
+    <h3 style="padding-top:20px;" class="cover-heading">Here's Your WordCloud</h3>
+
+    <img src="{{ wc_file_path }}" style="padding-top:10px;" class="img-fluid shadow-lg p-3 bg-white rounded" alt="Responsive image">
+    
+    <p style="font-size:14px; padding-top:5px; padding-bottom:10px;">Right Click and "Save Image As" to Download Your WordCloud</p>
+
+</main>
+
+{% endblock %}

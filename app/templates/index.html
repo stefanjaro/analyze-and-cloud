@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<main role="main" class="inner cover">
+
+    <h1 class="cover-heading">
+        Turn Your <strong>Website</strong>
+        <br/>
+        Into A <strong>WordCloud</strong>
+    </h1>
+
+    <form action="{{ url_for('wordcloud_page') }}", method="post">
+        <div style="padding-top:20px;" class="form-group">
+            <input style="width:50%;" name="user_url" type="textarea", placeholder="Enter Your URL Here">
+        </div>
+        <div style="padding-top:20px;" class="form-group">
+            <input class="btn btn-lg btn-secondary" type="submit" value="Generate">
+        </div>
+    </form>
+    
+</main>
+
+{% endblock %}
